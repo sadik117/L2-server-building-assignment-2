@@ -2,9 +2,9 @@ import express, { Request, Response } from "express";
 import dotenv from "dotenv";
 import { Pool } from "pg";
 import path from "path";
+import config from "./config";
 
 const app = express();
-const port = 5000;
 
 // parser
 app.use(express.json());
@@ -14,7 +14,7 @@ dotenv.config({ path: path.join(process.cwd(), ".env") });
 
 // DB
 const pool = new Pool({
-  connectionString: `${process.env.DB_CONNECTION_STR}`,
+  connectionString: `${config.connection_str}`,
 });
 
 const connectDB = async () => {
@@ -50,6 +50,6 @@ app.post("/", (req: Request, res: Response) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+app.listen(config.port, () => {
+  console.log(`Example app listening on port ${config.port}`);
 });
