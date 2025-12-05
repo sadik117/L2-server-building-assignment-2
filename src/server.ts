@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import path from "path";
 import config from "./config";
 import { connectDB } from "./config/db";
+import { userRoutes } from "./modules/user/user.routes";
 
 const app = express();
 
@@ -18,6 +19,9 @@ connectDB();
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello Universe..!!");
 });
+
+// Routes
+app.use("/api/v1/users", userRoutes);
 
 
 app.listen(config.port, () => {

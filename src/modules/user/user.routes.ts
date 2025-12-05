@@ -1,13 +1,11 @@
 import { Request, Response, Router } from "express";
+import { pool } from "../../config/db";
+import { userController } from "./user.controller";
 
 const router = Router();
 
-router.post("/", (req: Request, res:Response) => {
-    try {
-        
-    } catch (error) {
-        
-    }
-});
+router.post("/", userController.createUser);
 
-export default router;
+router.get("/", userController.getUsers);
+
+export const userRoutes = router;
