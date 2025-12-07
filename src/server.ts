@@ -5,6 +5,7 @@ import config from "./config";
 import { connectDB } from "./config/db";
 import { userRoutes } from "./modules/user/user.routes";
 import { authRoutes } from "./modules/auth/auth.routes";
+import { vehicleRoutes } from "./modules/vehicle/vehicle.routes";
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.get("/", (req: Request, res: Response) => {
 // Routes
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/vehicles", vehicleRoutes);
 
 
 app.listen(config.port, () => {
