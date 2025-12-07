@@ -9,7 +9,6 @@ interface VehiclePayload {
 }
 
 // helpers and service methods
-
 const findAll = async () => {
   const result = await pool.query(`SELECT * FROM vehicles ORDER BY id DESC`);
   return result.rows;
@@ -31,6 +30,7 @@ const hasActiveBookings = async (vehicleId: number) => {
   return (result.rowCount ?? 0) > 0;
 };
 
+// CRUD operations
 const createVehicle = async (data: VehiclePayload) => {
   const query = `
       INSERT INTO vehicles (vehicle_name, type, registration_number, daily_rent_price, availability_status)
