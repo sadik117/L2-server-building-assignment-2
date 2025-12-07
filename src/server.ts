@@ -4,6 +4,7 @@ import path from "path";
 import config from "./config";
 import { connectDB } from "./config/db";
 import { userRoutes } from "./modules/user/user.routes";
+import { authRoutes } from "./modules/auth/auth.routes";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.get("/", (req: Request, res: Response) => {
 
 // Routes
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/auth", authRoutes);
 
 
 app.listen(config.port, () => {

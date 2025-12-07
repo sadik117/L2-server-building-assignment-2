@@ -10,24 +10,7 @@ declare global {
   }
 }
 
-
-const createUser = async (req: Request, res: Response) => {
-  try {
-    const { name, email, password, phone, role } = req.body;
-    const created = await userService.createUser({ name, email, password, phone, role });
-
-    res.status(201).json({
-      message: "User created successfully",
-      data: created
-    });
-  } catch (error: any) {
-    res.status(500).json({
-      message: error.message || "Internal Server Error",
-      error: error
-    });
-  }
-};
-
+// get
 const getUsers = async (req: Request, res: Response) => {
   try {
     const users = await userService.findAll();
@@ -43,7 +26,7 @@ const getUsers = async (req: Request, res: Response) => {
   }
 };
 
-
+// update
 const updateUser = async (req: Request, res: Response) => {
   try {
     const { userId } = req.params;
@@ -77,10 +60,27 @@ const updateUser = async (req: Request, res: Response) => {
   }
 };
 
+// delete
 const deleteUser = async (req: Request, res: Response) => {
   try {
+    const authUser = req.user!;
     const { userId } = req.params;
 
+    // Only admin can delete
+    if (authUser.role !== "admin") {
+      throw new ApiError(403, "Forbidden: Only admin can delete users");
+    }
+
+    // Check if user has active bookings
+    const active = await userService.hasActiveBookings(Number(userId));
+    if (active) {
+      throw new ApiError(
+        400,
+        "User cannot be deleted because they have active bookings"
+      );
+    }
+
+    // Delete user
     await userService.deleteUser(Number(userId));
 
     res.status(200).json({
@@ -94,8 +94,8 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 
+
 export const userController = {
-  createUser,
   getUsers,
   updateUser,
   deleteUser

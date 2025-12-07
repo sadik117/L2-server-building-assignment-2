@@ -46,25 +46,22 @@ const findAll = async () => {
   return result.rows;
 };
 
+const hasActiveBookings = async (userId: number) => {
+  const result = await pool.query(
+    `
+    SELECT id FROM bookings
+    WHERE customer_id = $1 AND status = 'active'
+    `,
+    [userId]
+  );
+  return (result.rowCount ?? 0) > 0;
+};
+
 
 // CRUD operations
 
-const createUser = async (data: UpdateUserPayload) => {
- 
-  const email = data.email ? data.email.toLowerCase() : null;
 
-  const result = await pool.query(
-    `
-    INSERT INTO users (name, email, password, phone, role)
-    VALUES ($1, $2, $3, $4, $5)
-    RETURNING id, name, email, phone, role
-    `,
-    [data.name ?? null, email, data.password ?? null, data.phone ?? null, data.role ?? null]
-  );
-
-  return result.rows[0];
-};
-
+// update user
 const updateUser = async (id: number, data: UpdateUserPayload, isAdmin: boolean) => {
 
   // check user exists
@@ -114,24 +111,12 @@ const updateUser = async (id: number, data: UpdateUserPayload, isAdmin: boolean)
   return result.rows[0];
 };
 
-
+// delete user
 const deleteUser = async (id: number) => {
   await pool.query(`DELETE FROM users WHERE id = $1`, [id]);
 };
 
-const hasActiveBookings = async (userId: number) => {
-  const result = await pool.query(
-    `
-    SELECT id FROM bookings
-    WHERE customer_id = $1 AND status = 'active'
-    `,
-    [userId]
-  );
-  return (result.rowCount ?? 0) > 0;
-};
-
 export const userService = {
-  createUser,
   findAll,
   findById,
   findByEmail,
