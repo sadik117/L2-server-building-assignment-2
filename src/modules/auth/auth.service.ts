@@ -2,6 +2,7 @@ import { pool } from "../../config/db";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import ApiError from "../../utils/ApiError";
+import config from "../../config";
 
 interface UpdateUserPayload {
   name?: string;
@@ -11,6 +12,7 @@ interface UpdateUserPayload {
   role?: "admin" | "customer";
 }
 
+// create user
 const signUpUser = async (data: UpdateUserPayload) => {
 
   if (!data.password) {
@@ -33,31 +35,42 @@ const signUpUser = async (data: UpdateUserPayload) => {
 
 };
 
+// login user
 const signinUser = async (email: string, password: string) => {
+
+  email = email.toLowerCase();
+
   const result = await pool.query(
     `
       SELECT id, name, email, password, phone, role
       FROM users
-      WHERE email = $1 AND password = $2
-      `,
-    [email, password]
+      WHERE email = $1
+    `,
+    [email]
   );
 
   if (result.rowCount === 0) {
-    return null;
+    return null; 
   }
 
   const user = result.rows[0];
 
+  // compare and match bcrypt hashed password
   const matchPass = await bcrypt.compare(password, user.password);
   if (!matchPass) {
-    return false;
+    return false; 
   }
 
-  const sercertKey = process.env.JWT_SECRET;
-  const token = jwt.sign({ name: user.name, email: user.email }, sercertKey!, {
-    expiresIn: "3d",
-  });
+  // generate jwt token
+  const secretKey = config.jwt_secret;
+  const token = jwt.sign(
+    { id: user.id, role: user.role, email: user.email },
+    secretKey!,
+    { expiresIn: "3d" }
+  );
+
+  // password remove before returning
+  delete user.password;
 
   return { token, user };
 };
