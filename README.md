@@ -80,7 +80,7 @@ Tools	Nodemon, ts-node-dev
 📦 Installation & Setup
 
 1️⃣ Clone the Repository
-git clone [https://github.com/your-username/your-repo.git](https://github.com/sadik117/L2-server-building-assignment-2)
+git clone [https://github.com/sadik117/L2-server-building-assignment-2]
 cd your-repo
 
 2️⃣ Install Dependencies
