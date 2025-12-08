@@ -2,7 +2,7 @@
 
 A complete backend API to manage users, vehicles, bookings, authentication, role-based access, availability management, and more.
 
-🔗 Live API URL: [(https://assignment-2-express-server-indol.vercel.app/])
+🔗 Live API URL: https://assignment-2-express-server-indol.vercel.app/
 
 📌 Features
 🔐 Authentication & Authorization
@@ -80,7 +80,7 @@ Tools	Nodemon, ts-node-dev
 📦 Installation & Setup
 
 1️⃣ Clone the Repository
-git clone [https://github.com/sadik117/L2-server-building-assignment-2]
+git clone https://github.com/sadik117/L2-server-building-assignment-2
 cd your-repo
 
 2️⃣ Install Dependencies
@@ -132,23 +132,6 @@ POST	/api/v1/bookings	Customer/Admin	Create booking
 GET	/api/v1/bookings	Role Based	Admin=All, Customer=Own
 PUT	/api/v1/bookings/:bookingId	Role Based	Cancel or Return Booking
 
-📦 Project Structure
-src/
- ├── config/
- │    ├── db.ts
- │    └── index.ts
- ├── middleware/
- │    └── verifyToken.ts
- ├── modules/
- │    ├── auth/
- │    ├── users/
- │    ├── vehicles/
- │    └── bookings/
- ├── utils/
- │    ├── ApiError.ts
- │    
- ├── app.ts
- └── server.ts
 
 🛡️ Error Handling
 Consistent structure using ApiError:
