@@ -2,7 +2,7 @@
 
 A complete backend API to manage users, vehicles, bookings, authentication, role-based access, availability management, and more.
 
-🔗 Live API URL: [Add your deployed link here](https://assignment-2-express-server-indol.vercel.app/)
+🔗 Live API URL: [[Add your deployed link here](https://assignment-2-express-server-indol.vercel.app/)])
 
 📌 Features
 🔐 Authentication & Authorization
