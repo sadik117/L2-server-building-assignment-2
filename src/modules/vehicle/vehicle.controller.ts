@@ -16,7 +16,10 @@ const createVehicle = async (req: Request, res: Response) => {
       data: vehicle,
     });
   } catch (error: any) {
-    res.status(error.statusCode || 500).json({ message: error.message });
+    res.status(error.statusCode || 500).json({ 
+      message: error.messag,
+      error: error
+    });
   }
 };
 
@@ -30,7 +33,10 @@ const getVehicles = async (req: Request, res: Response) => {
       data: vehicles,
     });
   } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ 
+      message: "Internal Server Error",
+      error: error
+     });
   }
 };
 
@@ -46,7 +52,10 @@ const getVehicles = async (req: Request, res: Response) => {
       data: vehicle,
     });
   } catch (error: any) {
-    res.status(error.statusCode || 500).json({ message: error.message });
+    res.status(error.statusCode || 500).json({ 
+      message: error.message,
+      error: error
+    });
   }
 };
 
@@ -67,7 +76,10 @@ const updateVehicle = async (req: Request, res: Response) => {
       data: updated,
     });
   } catch (error: any) {
-    res.status(error.statusCode || 500).json({ message: error.message });
+    res.status(error.statusCode || 500).json({ 
+      message: error.message,
+      error: error
+     });
   }
 };
 
@@ -94,7 +106,10 @@ const deleteVehicle = async (req: Request, res: Response) => {
       message: "Vehicle deleted successfully",
     });
   } catch (error: any) {
-    res.status(error.statusCode || 500).json({ message: error.message });
+    res.status(error.statusCode || 500).json({ 
+      message: error.message,
+      error: error
+     });
   }
 };
 

@@ -5,6 +5,7 @@ import { connectDB } from "./config/db";
 import { userRoutes } from "./modules/user/user.routes";
 import { authRoutes } from "./modules/auth/auth.routes";
 import { vehicleRoutes } from "./modules/vehicle/vehicle.routes";
+import { bookingRoutes } from "./modules/booking/booking.routes";
 
 const app = express();
 
@@ -27,7 +28,7 @@ app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/vehicles", vehicleRoutes);
 
 // booking routes
-app.use("/api/v1/bookings", );
+app.use("/api/v1/bookings", bookingRoutes);
 
 
 

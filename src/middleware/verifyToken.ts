@@ -3,12 +3,7 @@ import jwt from "jsonwebtoken";
 import config from "../config";
 import ApiError from "../utils/ApiError";
 
-const verifyToken = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-
+const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   try {
     const authHeader = req.headers.authorization;
 
@@ -16,18 +11,17 @@ const verifyToken = (
       throw new ApiError(401, "No token provided");
     }
 
-    if (!config.jwt_secret) {
-      throw new ApiError(500, "JWT secret is not configured");
-    }
-
     const token = authHeader.split(" ")[1];
 
-    const decoded = jwt.verify(token as string, config.jwt_secret as string);
+    if (!config.jwt_secret) {
+      throw new ApiError(500, "JWT secret is not set!");
+    }
+
+    const decoded = jwt.verify(token as string, config.jwt_secret) as any;
 
     req.user = decoded as any;
 
     next();
-    
   } catch (error) {
     return res.status(401).json({
       message: "Invalid or expired token",

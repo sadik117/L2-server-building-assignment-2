@@ -37,7 +37,6 @@ const signUpUser = async (data: UpdateUserPayload) => {
 
 // login user
 const signinUser = async (email: string, password: string) => {
-
   email = email.toLowerCase();
 
   const result = await pool.query(
@@ -50,7 +49,7 @@ const signinUser = async (email: string, password: string) => {
   );
 
   if (result.rowCount === 0) {
-    return null; 
+    throw new Error("Invalid email or password");
   }
 
   const user = result.rows[0];
@@ -58,7 +57,7 @@ const signinUser = async (email: string, password: string) => {
   // compare and match bcrypt hashed password
   const matchPass = await bcrypt.compare(password, user.password);
   if (!matchPass) {
-    return false; 
+    throw new Error("Invalid email or password");
   }
 
   // generate jwt token
@@ -69,11 +68,12 @@ const signinUser = async (email: string, password: string) => {
     { expiresIn: "3d" }
   );
 
-  // password remove before returning
+  // remove password before returning
   delete user.password;
 
   return { token, user };
 };
+
 
 
 export const authService = {

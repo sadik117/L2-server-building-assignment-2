@@ -2,13 +2,6 @@ import { Request, Response } from "express";
 import { userService } from "./user.service";
 import ApiError from "../../utils/ApiError";
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: { id: number; role: string };
-    }
-  }
-}
 
 // get
 const getUsers = async (req: Request, res: Response) => {
