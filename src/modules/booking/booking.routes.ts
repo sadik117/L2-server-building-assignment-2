@@ -6,7 +6,6 @@ const router = Router();
 
 router.post("/", verifyToken, bookingController.createBooking);
 router.get("/", verifyToken, bookingController.getBookings);
-router.post("/:bookingId/cancel", verifyToken, bookingController.cancelBooking);
-router.post("/:bookingId/return", verifyToken, bookingController.returnBooking);   
+router.put("/:bookingId", verifyToken, bookingController.updateBooking);   
 
 export const bookingRoutes = router;

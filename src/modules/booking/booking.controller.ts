@@ -25,12 +25,10 @@ const createBooking = async (req: Request, res: Response) => {
       data: booking,
     });
   } catch (error: any) {
-    const e: any = error;
-    res.status(e.statusCode || 500).json({
-      message: e.message || "Internal Server Error",
-      error: e,
+    res.status(error.statusCode || 500).json({
+      message: error.message || "Internal Server Error",
+      error: error,
     });
-    console.log(e);
   }
 };
 
@@ -60,49 +58,41 @@ const getBookings = async (req: Request, res: Response) => {
 };
 
 
-// booking cancellation by customer
-const cancelBooking = async (req: Request, res: Response) => {
+
+// update booking status: cancel by customer, return by admin
+ const updateBooking = async (req: Request, res: Response) => {
   try {
     const user = req.user;
+    if (!user) throw new ApiError(401, "Unauthorized");
 
-    if (!user) {
-      throw new ApiError(401, "Unauthorized: User not authenticated");
+    const { status } = req.body;
+    const bookingId = Number(req.params.bookingId);
+
+    if (status === "cancelled") {
+      if (user.role !== "customer") throw new ApiError(403, "Only customer can cancel");
+      const result = await bookingService.cancelBooking(bookingId, user.id);
+      return res.status(200).json(result);
     }
 
-    const result = await bookingService.cancelBooking(
-      Number(req.params.bookingId),
-      user.id
-    );
+    if (status === "returned") {
+      if (user.role !== "admin") throw new ApiError(403, "Only admin can return");
+      const result = await bookingService.returnBooking(bookingId);
+      return res.status(200).json(result);
+    }
 
-    res.status(200).json(result);
-  } catch (error: any) {
-    const e: any = error;
-    res.status(e.statusCode || 500).json({
-      message: e.message || "Internal Server Error",
-      error: e,
-    });
-  }
-};
-
-// return booking by admin only
-const returnBooking = async (req: Request, res: Response) => {
-  try {
-    const result = await bookingService.returnBooking(
-      Number(req.params.bookingId)
-    );
-
-    res.status(200).json(result);
+    throw new ApiError(400, "Invalid status value");
   } catch (error: any) {
     res.status(error.statusCode || 500).json({
       message: error.message,
-      error: error,
+      error: { statusCode: error.statusCode, success: false },
     });
   }
 };
+
+
 
 export const bookingController = {
   createBooking,
   getBookings,
-  cancelBooking,
-  returnBooking,
+  updateBooking
 };
