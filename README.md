@@ -2,9 +2,10 @@
 
 A complete backend API to manage users, vehicles, bookings, authentication, role-based access, availability management, and more.
 
-🔗 Live API URL: https://assignment-2-express-server-indol.vercel.app/
+🔗 Live API URL: https://assignment-2-express-server-indol.vercel.app
 
 📌 Features
+
 🔐 Authentication & Authorization
 
 JWT-based authentication
@@ -68,72 +69,115 @@ Request validation
 🛠️ Technology Stack
 
 Layer	Technology
+
 Runtime	Node.js
+
 Framework	Express.js
+
 Database	PostgreSQL
+
 ORM/Query	pg
+
 Language	TypeScript
+
 Authentication	JSON Web Token (JWT)
+
 Password Hashing	bcrypt
+
 Tools	Nodemon, ts-node-dev
+
 
 📦 Installation & Setup
 
 1️⃣ Clone the Repository
+
 git clone https://github.com/sadik117/L2-server-building-assignment-2
+
 cd your-repo
 
+
 2️⃣ Install Dependencies
+
 npm install
+
 
 3️⃣ Create .env File
 
 Create .env in root:
 
 PORT=5000
+
 DB_USER=your_postgres_user
+
 DB_PASSWORD=your_postgres_password
+
 DB_HOST=localhost
+
 DB_PORT=5432
+
 DB_NAME=your_dbname
 
 JWT_SECRET=your_secret_key
 
+
 ▶️ Running the Project
+
 🔧 Development (Auto Reload)
+
 npm run dev
 
+
 🚀 Production
+
 npm run build
+
 npm start
+
 
 📚 API Documentation
 
 🔐 Authentication Routes
+
 Method	Endpoint	Description
+
 POST	/api/v1/auth/signup	Register new user
+
 POST	/api/v1/auth/signin	Login & receive JWT
 
+
 👥 User Routes
+
 Method	Endpoint	Access	Description
+
 GET	/api/v1/users/me	Auth	Get logged-in user
+
 GET	/api/v1/users	Admin	Fetch all users
 
 🚘 Vehicle Routes
+
 Method	Endpoint	Access
+
 POST	/api/v1/vehicles	Admin
+
 GET	/api/v1/vehicles	Public
+
 PUT	/api/v1/vehicles/:id	Admin
+
 DELETE	/api/v1/vehicles/:id	Admin
 
 📅 Booking Routes
+
 Method	Endpoint	Access	Description
+
 POST	/api/v1/bookings	Customer/Admin	Create booking
+
 GET	/api/v1/bookings	Role Based	Admin=All, Customer=Own
+
 PUT	/api/v1/bookings/:bookingId	Role Based	Cancel or Return Booking
 
 
 🛡️ Error Handling
+
 Consistent structure using ApiError:
 
 {
@@ -143,4 +187,5 @@ Consistent structure using ApiError:
 }
 
 🧪 Testing (Optional)
+
 npm run test
